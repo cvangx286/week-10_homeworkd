@@ -23,7 +23,7 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        "hemispheres": mars_hemi(browser)
+        "Hemisphere": mars_hemi(browser)
         }
 
     # Stop webdriver and return data
@@ -115,19 +115,9 @@ def mars_hemi(browser):
     hemi_soup = soup(html, 'html.parser')
 
     things = hemi_soup.find("div", {"class":"results"}).find_all("div",{"class","item"})
-    html_Img = thing.find("a", {"class":"product-item"})["href"]
-
-    img_url = "https://marshemispheres.com/"+ html_Img
-    browser.visit(img_url)
-
-    html = browser.html
-    hemi_soup = soup(html, 'html.parser')
-
-    full_img = hemi_soup.find('img', class_='wide-image').get('src')
-    Img_title= hemi_soup.find("h2", {"class":"title"}).text
 
     for thing in things:
-        hemispheres = {"img_url": img_url, "title": Img_title}
+        
         html_Img = thing.find("a", {"class":"product-item"})["href"]
         img_url = "https://marshemispheres.com/"+ html_Img
         browser.visit(img_url)
@@ -136,8 +126,9 @@ def mars_hemi(browser):
         full_img = hemi_soup.find('img', class_='wide-image')["src"]
         img_url = "https://marshemispheres.com/"+ full_img
         Img_title = hemi_soup.find("h2", {"class":"title"}).text
+        Hemisphere = {"img_url": img_url, "title": Img_title}
             
-        hemisphere_image_urls.append(hemispheres)
+        hemisphere_image_urls.append(Hemisphere)
         
     return hemisphere_image_urls
 
